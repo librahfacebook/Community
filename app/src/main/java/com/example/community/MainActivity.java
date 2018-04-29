@@ -22,6 +22,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //登录按钮响应功能
         loginButton=findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
@@ -36,7 +37,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.loginButton:
-                intent=new Intent(MainActivity.this,LoginActivity.class);
+                intent=new Intent(MainActivity.this,MainFormActivity.class);
                 startActivity(intent);
                 break;
             case R.id.signUpButton:
