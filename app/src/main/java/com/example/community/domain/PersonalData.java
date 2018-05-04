@@ -10,7 +10,7 @@ public class PersonalData implements Serializable{
     private String account;
     private String name;
     private String sex;
-    private int year;
+    private String year;
     private String phone;
     private String mail;
     private String introduce;
@@ -40,11 +40,11 @@ public class PersonalData implements Serializable{
         this.sex = sex;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

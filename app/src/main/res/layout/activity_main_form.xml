@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--登录成功后的主界面-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainFormActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="#2E3238">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="Community"
-            android:textColor="#fff"
-            android:textSize="25sp"
-            />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/content"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="#2E3238">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Community"
+                android:textColor="#fff"
+                android:textSize="25sp"
+                />
+        </RelativeLayout>
 
-        <com.ashokvarma.bottomnavigation.BottomNavigationBar
-            android:id="@+id/bottomBar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.ashokvarma.bottomnavigation.BottomNavigationBar
+                android:id="@+id/bottomBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <include layout="@layout/personal_data"/>
+</android.support.v4.widget.DrawerLayout>

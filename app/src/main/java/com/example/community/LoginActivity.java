@@ -1,6 +1,7 @@
 package com.example.community;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.example.community.service.UserService;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private SharedPreferences.Editor editor;//将账号以及密码保存起来
     private EditText loginAccount;
     private EditText loginPassword;
     private Button loginButton;
@@ -60,14 +62,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Log.d("登录情况", "onClick: "+config.Success);
        if(config.Success){
-            //用户验证成功，则切换到主界面
+            //用户验证成功，则切换到主界面，同时将账号以及密码保存起来
             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+            Save(loginUser);
             Intent intent=new Intent(LoginActivity.this, MainFormActivity.class);
             startActivity(intent);
+            finish();
         }else{
             //用户验证失败，重新登录
             Toast.makeText(LoginActivity.this,"登录失败，请检查用户名或密码",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+    //保存用户登录数据
+    private void Save(User user){
+        Config.Account=user.getAccount();
+        editor=getSharedPreferences("Account_data",MODE_PRIVATE).edit();
+        editor.putString("account",user.getAccount());
+        editor.putString("password",user.getPassword());
+        editor.apply();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.community;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.community.service.UserService;
  */
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private SharedPreferences.Editor editor;
     private EditText signUpAccount;
     private EditText signUpPassword;
     private Button signUpButton;
@@ -51,14 +53,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if(config.Success){
             //注册成功
             Toast.makeText(SignUpActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+            clear();
             //返回登录界面
             Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
             intent.putExtra("user",signUp_user);
             startActivity(intent);
+            finish();
         }else{
             //注册失败
             Toast.makeText(SignUpActivity.this,"注册失败或者已有此账户",Toast.LENGTH_SHORT).show();
         }
 
+    }
+    //当注册另一个账号时清空内存
+    private void clear(){
+        editor=getSharedPreferences("Account_data",MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
     }
 }

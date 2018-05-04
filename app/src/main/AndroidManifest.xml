@@ -23,7 +23,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MainFormActivity" />
-
+        <activity android:name=".StartActivity" />
+        <activity android:name=".PersonalDataActivity"></activity>
     </application>
 
 </manifest>
