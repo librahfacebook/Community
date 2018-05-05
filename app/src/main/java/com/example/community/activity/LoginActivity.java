@@ -1,4 +1,4 @@
-package com.example.community;
+package com.example.community.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.community.R;
 import com.example.community.domain.Config;
 import com.example.community.domain.User;
 import com.example.community.service.UserService;

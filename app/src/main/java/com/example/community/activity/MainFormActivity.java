@@ -1,20 +1,17 @@
-package com.example.community;
+package com.example.community.activity;
 
 /**
  * 主界面设置底部导航栏，并且可以实现自由切换
  */
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.ArraySet;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,26 +22,21 @@ import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.example.community.domain.Config;
+import com.example.community.R;
 import com.example.community.domain.PersonalData;
 import com.example.community.frame.CircleFragment;
 import com.example.community.frame.ContactFragment;
 import com.example.community.frame.MessageFragment;
-import com.example.community.service.PersonalDataService;
-import com.example.community.utils.HttpUtil;
+import com.example.community.utils.ImageUtils;
 import com.example.community.utils.Utility;
 
-import org.json.JSONObject;
-
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
 
 public class MainFormActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 
+    public static Activity MainForm=null;
     private ImageView personalImage;
     private Bitmap bitmap;
     private PersonalData pd;
@@ -66,6 +58,7 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_form);
+        MainForm=this;
         //底部导航栏设置
         bottomNavigationBar=findViewById(R.id.bottomBar);
         //设置BottomNavigateBar的属性
@@ -95,7 +88,6 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
             public void onClick(View v) {
                 Intent intent=new Intent(MainFormActivity.this,PersonalDataActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
         //重新登录按钮设置
@@ -165,34 +157,16 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
      */
     private void writePersonalData()
     {
-        Intent intent=getIntent();
-        pd=(PersonalData) intent.getSerializableExtra("personalData");
-
         prefs=getSharedPreferences("PersonalData",MODE_PRIVATE);
-        if(prefs.contains("image")){
+        if(prefs.contains("name")){
             Log.d("Prefs", "writePersonalData: ");
             settings();
-        }else if(pd!=null) {
-                Log.d("PersonalData", "writePersonalData: ");
-                personalImage.setImageBitmap(getHttpBitmap(pd.getImage()));
-                personalName.setText(pd.getName());
-                personalSex.setText(pd.getSex());
-                personalYear.setText(pd.getYear());
-                personalPhone.setText(pd.getPhone());
-                personalMail.setText(pd.getMail());
-                personalIntroduce.setText(pd.getIntroduce());
         }else{
             Log.d("从数据库中查询个人信息", "writePersonalData: ");
             personalData= Utility.dataExecute();
             if(personalData!=null){
                 save();//保存于手机缓存中
-                personalImage.setImageBitmap(getHttpBitmap(personalData.getImage()));
-                personalName.setText(personalData.getName());
-                personalSex.setText(personalData.getSex());
-                personalYear.setText(personalData.getYear());
-                personalPhone.setText(personalData.getPhone());
-                personalMail.setText(personalData.getMail());
-                personalIntroduce.setText(personalData.getIntroduce());
+                settings();
             }
         }
 
@@ -222,7 +196,12 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
     }
     //从缓存中填写个人资料
     public void settings(){
-        personalImage.setImageBitmap(getHttpBitmap(prefs.getString("image",null)));
+        String image=prefs.getString("image",null);
+        if(!image.equals("")){
+            Bitmap bitmap= ImageUtils.convertToBitmap(image);
+            if(bitmap!=null)
+                personalImage.setImageBitmap(bitmap);
+        }
         personalName.setText(prefs.getString("name",null));
         personalSex.setText(prefs.getString("sex",null));
         personalYear.setText(prefs.getString("year",null));
@@ -234,7 +213,6 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
     public void save(){
         prefs=getSharedPreferences("PersonalData",MODE_PRIVATE);
         SharedPreferences.Editor editor=prefs.edit();
-        editor=getSharedPreferences("PersonalData",MODE_PRIVATE).edit();
         editor.putString("name",personalData.getName());
         editor.putString("sex",personalData.getSex());
         editor.putString("year",personalData.getYear());

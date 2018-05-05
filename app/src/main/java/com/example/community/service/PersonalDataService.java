@@ -1,10 +1,7 @@
 package com.example.community.service;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.community.MainFormActivity;
 import com.example.community.domain.Config;
 import com.example.community.domain.PersonalData;
 import com.example.community.utils.HttpUtil;
@@ -23,7 +20,7 @@ import okhttp3.Response;
  */
 public class PersonalDataService{
 
-    final static String url="http://10.177.233.211:8080/community/PersonalManageServlet";
+    final static String url="http://10.177.123.56:8080/community/PersonalManageServlet";
     public static void queryFromServer(PersonalData personalData, final Config config){
         HttpUtil.PersonalDataRequestOkHttp(url, personalData, new Callback() {
             @Override

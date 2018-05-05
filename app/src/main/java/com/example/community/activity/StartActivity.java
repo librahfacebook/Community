@@ -1,4 +1,4 @@
-package com.example.community;
+package com.example.community.activity;
 /**
  * 用户第一次登陆或注册的开始界面
  */
@@ -8,6 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.community.R;
+import com.example.community.activity.LoginActivity;
+import com.example.community.activity.SignUpActivity;
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener{
 

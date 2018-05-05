@@ -3,7 +3,7 @@
     package="com.example.community">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/snowman"
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".MainFormActivity" />
-        <activity android:name=".StartActivity" />
-        <activity android:name=".PersonalDataActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.SignUpActivity" />
+        <activity android:name=".activity.MainFormActivity" />
+        <activity android:name=".activity.StartActivity" />
+        <activity android:name=".activity.PersonalDataActivity" />
+        <activity android:name=".activity.SelectPhotoActivity" />
+        <activity android:name=".activity.CropActivity"></activity>
     </application>
 
 </manifest>

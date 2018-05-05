@@ -22,7 +22,7 @@ import okhttp3.Response;
  * 向服务器发出注册请求
  */
 public class UserService {
-    final static String url="http://10.177.233.211:8080/community/UserManageServlet";
+    final static String url="http://10.177.123.56:8080/community/UserManageServlet";
     public static void queryFromServer(String action, User user,final Config config){
         HttpUtil.sendRequestWithOkHttp(url, action, user, new Callback() {
             @Override

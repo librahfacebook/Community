@@ -1,4 +1,4 @@
-package com.example.community;
+package com.example.community.activity;
 /**
  * 基于地理位置的校园交友社区
  */
@@ -6,13 +6,7 @@ package com.example.community;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 
 import com.example.community.domain.Config;
 
