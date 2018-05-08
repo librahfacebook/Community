@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,6 +62,7 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_form);
+        initWindow();
         MainForm=this;
         //底部导航栏设置
         bottomNavigationBar=findViewById(R.id.bottomBar);
@@ -151,6 +156,16 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
         fragments.add(ContactFragment.newInstance("Contact"));
         fragments.add(CircleFragment.newInstance("Circle"));
         return fragments;
+    }
+    //初始化，将状态栏和标题栏设为透明
+    private void initWindow()
+    {
+        //取消透明状态栏
+        Window window= getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        //设置状态栏颜色
+        window.setStatusBarColor(Color.parseColor("#2E3238"));
     }
     /**
      * 将个人资料进行填写

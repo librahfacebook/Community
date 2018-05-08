@@ -3,29 +3,32 @@ package com.example.community.frame;
  * 朋友圈以及动态界面
  */
 
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.community.R;
+import com.example.community.activity.FriendCircleActivity;
+import com.example.community.activity.MainFormActivity;
 
 
 public class CircleFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    //页面布局的事件
+    private LinearLayout friendCircle;
+    private LinearLayout nearPeople;
     public CircleFragment() {
         // Required empty public constructor
     }
@@ -46,13 +49,24 @@ public class CircleFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_circle, container, false);
+        final View view=inflater.inflate(R.layout.fragment_circle, container, false);
+        friendCircle=view.findViewById(R.id.friendCircle);
+        nearPeople=view.findViewById(R.id.nearPeople);
+        friendCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"朋友圈",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getContext(), FriendCircleActivity.class);
+                startActivity(intent);
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

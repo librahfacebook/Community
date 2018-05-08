@@ -20,7 +20,7 @@ import okhttp3.Response;
  */
 public class PersonalDataService{
 
-    final static String url="http://10.177.123.56:8080/community/PersonalManageServlet";
+    final static String url="http://192.168.1.106:8080/community/PersonalManageServlet";
     public static void queryFromServer(PersonalData personalData, final Config config){
         HttpUtil.PersonalDataRequestOkHttp(url, personalData, new Callback() {
             @Override

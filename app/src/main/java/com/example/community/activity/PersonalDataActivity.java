@@ -3,9 +3,11 @@ package com.example.community.activity;
  * 个人资料设置并上传到数据库
  */
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -15,6 +17,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,7 +61,7 @@ public class PersonalDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_data);
-
+        initWindow();
         personalImage_edit=findViewById(R.id.personalImage_edit);
         personalName_edit=findViewById(R.id.personalName_edit);
         personalSex_edit=findViewById(R.id.personalSex_edit);
@@ -107,6 +111,16 @@ public class PersonalDataActivity extends AppCompatActivity {
                 Gravity.CENTER_HORIZONTAL,0,0);
             }
         });
+    }
+    //初始化，将状态栏和标题栏设为透明
+    private void initWindow()
+    {
+        //取消透明状态栏
+        Window window= getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        //设置状态栏颜色
+        window.setStatusBarColor(Color.parseColor("#2E3238"));
     }
     //将上述信息进行保存
     private void SettingData(){
@@ -234,6 +248,7 @@ public class PersonalDataActivity extends AppCompatActivity {
     public void settings(){
         SharedPreferences prefs=getSharedPreferences("PersonalData",MODE_PRIVATE);
         String image=prefs.getString("image",null);
+        imageStr=image;
         if(!image.equals("")){
             Bitmap bitmap= ImageUtils.convertToBitmap(image);
             if(bitmap!=null)

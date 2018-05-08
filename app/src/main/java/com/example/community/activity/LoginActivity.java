@@ -2,10 +2,13 @@ package com.example.community.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        initWindow();
         loginAccount=findViewById(R.id.login_Account);
         loginPassword=findViewById(R.id.login_Password);
         //接受从注册层返回来的数据
@@ -48,7 +51,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginButton=findViewById(R.id.login_Button);
         loginButton.setOnClickListener(this);
     }
-
+    //初始化，将状态栏和标题栏设为透明
+    private void initWindow()
+    {
+        //取消透明状态栏
+        Window window= getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        //设置状态栏颜色
+        window.setStatusBarColor(Color.parseColor("#2E3238"));
+    }
     @Override
     public void onClick(View v) {
         loginUser.setAccount(loginAccount.getText().toString());

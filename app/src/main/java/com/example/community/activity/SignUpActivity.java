@@ -2,9 +2,12 @@ package com.example.community.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        initWindow();
         //获取用户注册账号以及密码
         signUpAccount=findViewById(R.id.signUp_Account);
         signUpPassword=findViewById(R.id.signUp_Password);
@@ -38,7 +42,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         signUpButton=findViewById(R.id.signUp_Button);
         signUpButton.setOnClickListener(this);
     }
-
+    //初始化，将状态栏和标题栏设为透明
+    private void initWindow()
+    {
+        //取消透明状态栏
+        Window window= getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        //设置状态栏颜色
+        window.setStatusBarColor(Color.parseColor("#2E3238"));
+    }
     @Override
     public void onClick(View v) {
         signUp_user.setAccount(signUpAccount.getText().toString());

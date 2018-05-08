@@ -3,7 +3,9 @@
     package="com.example.community">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/snowman"
@@ -22,11 +24,14 @@
         </activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.MainFormActivity" />
+        <activity
+            android:name=".activity.MainFormActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.StartActivity" />
         <activity android:name=".activity.PersonalDataActivity" />
-        <activity android:name=".activity.SelectPhotoActivity" />
-        <activity android:name=".activity.CropActivity"></activity>
+        <activity android:name=".activity.FriendCircleActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".activity.WriteCircleActivity"></activity>
     </application>
 
 </manifest>
