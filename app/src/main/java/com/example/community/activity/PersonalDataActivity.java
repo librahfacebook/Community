@@ -222,7 +222,7 @@ public class PersonalDataActivity extends AppCompatActivity {
         if (bundle!=null){
             Bitmap photo=bundle.getParcelable("data");
             photo= ImageUtils.toRoundBitmap(photo);
-            imageStr=ImageUtils.convertToString(photo);
+            imageStr=ImageUtils.convertToString(photo,100);
             personalImage_edit.setImageBitmap(photo);
         }
     }
@@ -247,18 +247,32 @@ public class PersonalDataActivity extends AppCompatActivity {
     //从缓存中填写个人资料
     public void settings(){
         SharedPreferences prefs=getSharedPreferences("PersonalData",MODE_PRIVATE);
-        String image=prefs.getString("image",null);
-        imageStr=image;
-        if(!image.equals("")){
-            Bitmap bitmap= ImageUtils.convertToBitmap(image);
-            if(bitmap!=null)
-                personalImage_edit.setImageBitmap(bitmap);
+        if(prefs!=null) {
+            String image = prefs.getString("image", "");
+            imageStr = image;
+            if (!image.equals("")) {
+                Bitmap bitmap = ImageUtils.convertToBitmap(image);
+                if (bitmap != null)
+                    personalImage_edit.setImageBitmap(ImageUtils.toRoundBitmap(bitmap));
+            }
+            String name=prefs.getString("name",null);
+            if(!name.equals("null"))
+                personalName_edit.setText(name);
+            String sex=prefs.getString("sex",null);
+            if(!sex.equals("null"))
+                personalSex_edit.setText(sex);
+            String year=prefs.getString("year",null);
+            if(!year.equals("null"))
+                personalYear_edit.setText(year);
+            String phone=prefs.getString("phone",null);
+            if(!phone.equals("null"))
+                personalPhone_edit.setText(phone);
+            String mail=prefs.getString("mail",null);
+            if(!mail.equals("null"))
+                personalEmail_edit.setText(mail);
+            String introduce=prefs.getString("introduce",null);
+            if(!introduce.equals("null"))
+                personalIntroduce_edit.setText(introduce);
         }
-        personalName_edit.setText(prefs.getString("name",null));
-        personalSex_edit.setText(prefs.getString("sex",null));
-        personalYear_edit.setText(prefs.getString("year",null));
-        personalPhone_edit.setText(prefs.getString("phone",null));
-        personalEmail_edit.setText(prefs.getString("mail",null));
-        personalIntroduce_edit.setText(prefs.getString("introduce",null));
     }
 }

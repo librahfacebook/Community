@@ -1,5 +1,6 @@
 package com.example.community.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,11 +11,19 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Base64;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.example.community.domain.Config;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ImageUtils {
     //保存图片
@@ -115,9 +124,9 @@ public class ImageUtils {
     /**
      * 图片转换成String
      */
-    public static String convertToString(Bitmap bitmap){
+    public static String convertToString(Bitmap bitmap,int quality){
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,quality,baos);
         byte[] appicon=baos.toByteArray();//转换成byte数组
         return Base64.encodeToString(appicon,Base64.DEFAULT);
     }
@@ -137,11 +146,11 @@ public class ImageUtils {
         return bitmap;
     }
     /**
-     * bitmao转换成二进制
+     * bitmap转换成二进制
      */
     public static byte[] convertToByte(Bitmap bitmap){
         ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,0,outputStream);
         try{
             outputStream.flush();
             outputStream.close();
@@ -159,5 +168,32 @@ public class ImageUtils {
             bitmap=BitmapFactory.decodeByteArray(temp,0,temp.length);
         }
         return bitmap;
+    }
+    /**
+     * 将URL转化图片
+     */
+    //获取网络图片资源
+    public static void getHttpBitmap(final String url){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL imageUrl=null;
+                try{
+                    imageUrl=new URL(url);
+                }catch (MalformedURLException e){
+                    e.printStackTrace();
+                }
+                try{
+                    HttpURLConnection conn=(HttpURLConnection)imageUrl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is=conn.getInputStream();
+                    Config.image=BitmapFactory.decodeStream(is);
+                    is.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

@@ -2,6 +2,7 @@ package com.example.community.utils;
 
 import android.util.Log;
 
+import com.example.community.domain.FriendCircle;
 import com.example.community.domain.PersonalData;
 import com.example.community.domain.User;
 
@@ -9,12 +10,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.xml.transform.OutputKeys;
 
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -67,6 +71,46 @@ public class HttpUtil {
                 .add("account", personalData.getAccount())
                 .build();
         Request request = new Request.Builder().url(address).post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+    //上传图片的请求
+    public static void ImageUploadOkHttp(final String address, final FriendCircle friendCircle, Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        FormBody.Builder builder=new FormBody.Builder();
+        //发送请求类型(上传)
+        builder.add("action","upload");
+        //发送账户
+        builder.add("account",friendCircle.getAccount());
+        Log.d("发送账户", "ImageUploadOkHttp: "+friendCircle.getAccount());
+        //发送头像
+        builder.add("headPhoto",ImageUtils.convertToString(friendCircle.getBitmap(),50));
+        //发送动态消息
+        builder.add("circleText",friendCircle.getCircleText());
+        //发送图片个数
+        builder.add("imageCount",friendCircle.getImageCount()+"");
+        //遍历list中的数据，将其进行发送
+        int i=0;
+        for(String str:friendCircle.getCircleImageStrList()){
+            builder.add("image"+(i++),str);
+           // Log.d("图片字符串", "ImageUploadOkHttp: "+str);
+        }
+        //构建请求体
+        RequestBody requestBody=builder.build();
+        //构建请求
+        Request request=new Request.Builder()
+                        .url(address)
+                        .post(requestBody)
+                        .build();
+        //发送异步请求
+        client.newCall(request).enqueue(callback);
+    }
+    //查询某人动态的请求
+    public static void CircleRequestOkHttp(final String address,final String account,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                                .add("action","query")
+                                .add("account",account).build();
+        Request request=new Request.Builder().url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
 }

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.community.R;
+import com.example.community.domain.Config;
 import com.example.community.domain.PersonalData;
 import com.example.community.frame.CircleFragment;
 import com.example.community.frame.ContactFragment;
@@ -173,6 +174,7 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
     private void writePersonalData()
     {
         prefs=getSharedPreferences("PersonalData",MODE_PRIVATE);
+        Log.d("加载主页面", "writePersonalData: ");
         if(prefs.contains("name")){
             Log.d("Prefs", "writePersonalData: ");
             settings();
@@ -186,56 +188,51 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
         }
 
     }
-    //获取网络图片资源
-    private Bitmap getHttpBitmap(final String url){
-        //创建一个线程
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    URL myUrl=new URL(url);
-                    //打开对应的资源输入流
-                    InputStream is=myUrl.openConnection().getInputStream();
-                    //解析图片
-                    bitmap=BitmapFactory.decodeStream(is);
-                    //关闭输入流
-                    is.close();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        while(bitmap==null)
-            continue;
-        return bitmap;
-    }
     //从缓存中填写个人资料
     public void settings(){
         String image=prefs.getString("image",null);
         if(!image.equals("")){
             Bitmap bitmap= ImageUtils.convertToBitmap(image);
-            if(bitmap!=null)
-                personalImage.setImageBitmap(bitmap);
+            if(bitmap!=null){
+                Config.headPhoto=bitmap;
+                personalImage.setImageBitmap(ImageUtils.toRoundBitmap(bitmap));
+            }
         }
-        personalName.setText(prefs.getString("name",null));
-        personalSex.setText(prefs.getString("sex",null));
-        personalYear.setText(prefs.getString("year",null));
-        personalPhone.setText(prefs.getString("phone",null));
-        personalMail.setText(prefs.getString("mail",null));
-        personalIntroduce.setText(prefs.getString("introduce",null));
+        String name=prefs.getString("name",null);
+        if(!name.equals("null")) {
+            Config.Name=name;
+            personalName.setText(name);
+        }
+        String sex=prefs.getString("sex",null);
+        if(!sex.equals("null"))
+            personalSex.setText(sex);
+        String year=prefs.getString("year",null);
+        if(!year.equals("null"))
+            personalYear.setText(year);
+        String phone=prefs.getString("phone",null);
+        if(!phone.equals("null"))
+            personalPhone.setText(phone);
+        String mail=prefs.getString("mail",null);
+        if(!mail.equals("null"))
+            personalMail.setText(mail);
+        String introduce=prefs.getString("introduce",null);
+        if(!introduce.equals("null"))
+            personalIntroduce.setText(introduce);
     }
     //保存于手机自身内存里
     public void save(){
         prefs=getSharedPreferences("PersonalData",MODE_PRIVATE);
         SharedPreferences.Editor editor=prefs.edit();
-        editor.putString("name",personalData.getName());
-        editor.putString("sex",personalData.getSex());
-        editor.putString("year",personalData.getYear());
-        editor.putString("phone",personalData.getPhone());
-        editor.putString("mail",personalData.getMail());
-        editor.putString("introduce",personalData.getIntroduce());
-        editor.putString("image",personalData.getImage());
-        editor.apply();
+        if(personalData.getName()!=null) {
+            editor.putString("name", personalData.getName());
+            editor.putString("sex", personalData.getSex());
+            editor.putString("year", personalData.getYear());
+            editor.putString("phone", personalData.getPhone());
+            editor.putString("mail", personalData.getMail());
+            editor.putString("introduce", personalData.getIntroduce());
+            editor.putString("image", personalData.getImage());
+            editor.apply();
+        }
     }
     //清空手机内存
     public void clear(){
@@ -244,8 +241,8 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
         SharedPreferences.Editor editor=prefs.edit();
         SharedPreferences.Editor editor1=prefs1.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
         editor1.clear();
-        editor1.commit();
+        editor1.apply();
     }
 }
