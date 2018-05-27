@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.community.R;
 import com.example.community.activity.FriendCircleActivity;
 import com.example.community.activity.MainFormActivity;
+import com.example.community.activity.NearPeopleActivity;
 
 
 public class CircleFragment extends Fragment {
@@ -63,6 +64,14 @@ public class CircleFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(),"朋友圈",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getContext(), FriendCircleActivity.class);
+                startActivity(intent);
+            }
+        });
+        nearPeople.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"附近的人",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getContext(), NearPeopleActivity.class);
                 startActivity(intent);
             }
         });

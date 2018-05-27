@@ -1,11 +1,13 @@
 package com.example.community.domain;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.Serializable;
 
 /**
  * 用户个人详细信息类
  */
-public class PersonalData implements Serializable{
+public class PersonalData extends DataSupport implements Serializable{
 
     private String account;
     private String name;

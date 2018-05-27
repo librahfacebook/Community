@@ -29,9 +29,13 @@ import com.example.community.domain.Config;
 import com.example.community.domain.PersonalData;
 import com.example.community.service.PersonalDataService;
 import com.example.community.utils.ImageUtils;
+import com.example.community.utils.Utility;
 import com.example.community.view.SelectPhotoPopWindow;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.File;
+import java.util.List;
 
 public class PersonalDataActivity extends AppCompatActivity {
 
@@ -150,6 +154,8 @@ public class PersonalDataActivity extends AppCompatActivity {
         //用户简介
         String introduce=personalIntroduce_edit.getText().toString();
         personalData.setIntroduce(introduce);
+        //更新数据库
+        personalData.updateAll("account=?",personalData.getAccount());
     }
     //保存于手机自身内存里
     public void save(){

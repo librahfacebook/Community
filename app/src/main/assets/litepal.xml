@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<litepal>
+    <dbname value='community'></dbname>
+    <version value='1'></version>
+    <list>
+        <mapping class="com.example.community.domain.PersonalData"></mapping>
+        <mapping class="com.example.community.domain.Location"></mapping>
+    </list>
+</litepal>

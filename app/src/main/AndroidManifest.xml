@@ -4,15 +4,28 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 定位权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@drawable/snowman"
         android:label="@string/app_name"
         android:roundIcon="@drawable/snowman"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="u1TA6SOgycMdKlbOetBPTlybOGzIpPKO" />
+
         <activity
             android:name=".activity.MainActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
@@ -29,9 +42,17 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.StartActivity" />
         <activity android:name=".activity.PersonalDataActivity" />
-        <activity android:name=".activity.FriendCircleActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activity.WriteCircleActivity"></activity>
+        <activity
+            android:name=".activity.FriendCircleActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.WriteCircleActivity" />
+
+        <!--<service-->
+            <!--android:name="com.baidu.location.f"-->
+            <!--android:enabled="true"-->
+            <!--android:process=":remote" />-->
+
+        <activity android:name=".activity.NearPeopleActivity"></activity>
     </application>
 
 </manifest>

@@ -4,16 +4,22 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.baidu.mapapi.model.LatLng;
 import com.example.community.R;
 import com.example.community.domain.Config;
 import com.example.community.domain.FriendCircle;
+import com.example.community.domain.Location;
 import com.example.community.domain.PersonalData;
 import com.example.community.service.ImageService;
+import com.example.community.service.LocationService;
 import com.example.community.service.PersonalDataService;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +40,9 @@ public class Utility {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Log.d("Config", "dataExecute: "+Config.Response);
+        //Log.d("Config", "dataExecute: "+Config.Response);
         try{
-            Log.d("Response", "dataExecute: "+Config.Response);
+            //Log.d("Response", "dataExecute: "+Config.Response);
             if((Config.Response).equals("")){
                 personalData=null;
             }else{
@@ -53,6 +59,26 @@ public class Utility {
             e.printStackTrace();
         }
         return personalData;
+    }
+    //返回所有用户信息数据
+    public static List<PersonalData>  savePersonalData(){
+        List<PersonalData> dataList=null;
+        PersonalDataService.queryFromServer();
+        //睡眠1S后再判断
+        try{
+            Thread.sleep(1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(!Config.Response.equals("")){
+            try{
+                Gson gson=new Gson();
+                dataList=gson.fromJson(Config.Response,new TypeToken<List<PersonalData>>(){}.getType());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return dataList;
     }
     //返回动态圈数据
     public static Object circleExcute(String account){
@@ -84,7 +110,10 @@ public class Utility {
                     JSONObject object=jsonArray.getJSONObject(i);
                     friendCircle=new FriendCircle();
                     friendCircle.setAccount(account);
-                    friendCircle.setName(Config.Name);
+                    //根据账户查询用户姓名
+                    PersonalData personalData= DataSupport.select("name").where("account=?",account)
+                            .findFirst(PersonalData.class);
+                    friendCircle.setName(personalData.getName());
                     String circleText=object.getString("circleText");
                     friendCircle.setCircleText(circleText);
                     //解析动态图片
@@ -107,5 +136,25 @@ public class Utility {
             }
         }
         return circleList;
+    }
+    //返回用户位置信息数据
+    public static List<Location> otherLocationsExcute(){
+        List<Location> locationList=new ArrayList<>();
+        //延时获取信息
+        LocationService.queryFromServer();
+        try{
+            Thread.sleep(300);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(!Config.Response.equals("")){
+            try{
+                Gson gson=new Gson();
+                locationList=gson.fromJson(Config.Response,new TypeToken<List<Location>>(){}.getType());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return locationList;
     }
 }

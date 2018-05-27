@@ -25,10 +25,13 @@ import com.example.community.R;
 import com.example.community.adapter.CircleAdapter;
 import com.example.community.domain.Config;
 import com.example.community.domain.FriendCircle;
+import com.example.community.domain.PersonalData;
 import com.example.community.service.ImageService;
 import com.example.community.service.PersonalDataService;
 import com.example.community.utils.ImageUtils;
 import com.example.community.utils.Utility;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,9 +64,17 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
         circleGirdView=findViewById(R.id.circleGridView);
         personalImage=findViewById(R.id.personalCircleImage);
         personalName=findViewById(R.id.personalCircleName);
-
-        circleList=(List<FriendCircle>) Utility.circleExcute("librah");
-        circleList.addAll((List<FriendCircle>) Utility.circleExcute("cx"));
+        //找到所有已注册用户的账户并显示其朋友圈
+        SharedPreferences prefs=getSharedPreferences("Account_data",MODE_PRIVATE);
+        String account=prefs.getString("account",null);
+        if(account!=null)
+            circleList=(List<FriendCircle>) Utility.circleExcute(account);
+        List<PersonalData> dataList= DataSupport.select("account").where("account!=?",account).find(PersonalData.class);
+        for(PersonalData data:dataList){
+            circleList.addAll((List<FriendCircle>)Utility.circleExcute(data.getAccount()));
+        }
+//        circleList=(List<FriendCircle>) Utility.circleExcute("librah");
+//        circleList.addAll((List<FriendCircle>) Utility.circleExcute("cx"));
         recyclerView=findViewById(R.id.circleRecycler);
         recyclerView.setNestedScrollingEnabled(false);
         if(circleList!=null)

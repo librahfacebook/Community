@@ -16,7 +16,10 @@ import android.widget.TextView;
 import com.example.community.R;
 import com.example.community.domain.Config;
 import com.example.community.domain.FriendCircle;
+import com.example.community.domain.Location;
 import com.example.community.utils.ImageUtils;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +35,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
         ImageView personalImage;
         TextView circleText;
         GridView circleGirdView;
+        TextView locationText;
 
         public ViewHolder(View view){
             super(view);
@@ -39,6 +43,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
             personalImage=view.findViewById(R.id.personalCircleImage);
             circleText=view.findViewById(R.id.circleText);
             circleGirdView=view.findViewById(R.id.circleGridView);
+            locationText=view.findViewById(R.id.locationText);
         }
     }
     public CircleAdapter(List<FriendCircle> circleList){
@@ -70,7 +75,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
             Config.image=null;
             ImageUtils.getHttpBitmap(imageUrl);
             try{
-                Thread.sleep(100);
+                Thread.sleep(200);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -93,6 +98,11 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
             }
         });
         holder.circleGirdView.setAdapter(adapter);
+        //显示动态发布地理位置
+        String account=friendCircle.getAccount();
+        Location location= DataSupport.select("address").where("account=?",account).findFirst(Location.class);
+        String address=location.getAddress();
+        holder.locationText.setText("地理位置："+address);
     }
 
     @Override

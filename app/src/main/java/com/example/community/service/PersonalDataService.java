@@ -64,4 +64,19 @@ public class PersonalDataService{
             }
         });
     }
+    //解析服务器返回来的所有用户数据
+    public static void queryFromServer(){
+        HttpUtil.PersonalDataAllQueryOkHttp(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Config.Response="";
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseText=response.body().string();
+                Config.Response=responseText;
+            }
+        });
+    }
 }

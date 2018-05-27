@@ -2,7 +2,9 @@ package com.example.community.utils;
 
 import android.util.Log;
 
+import com.baidu.mapapi.model.LatLng;
 import com.example.community.domain.FriendCircle;
+import com.example.community.domain.Location;
 import com.example.community.domain.PersonalData;
 import com.example.community.domain.User;
 
@@ -15,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.xml.transform.OutputKeys;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -73,6 +76,14 @@ public class HttpUtil {
         Request request = new Request.Builder().url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
+    //所有用户资料的查询请求
+    public static void PersonalDataAllQueryOkHttp(final String address,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("action","queryAll").build();
+        Request request=new Request.Builder().url(address).post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
     //上传图片的请求
     public static void ImageUploadOkHttp(final String address, final FriendCircle friendCircle, Callback callback){
         OkHttpClient client=new OkHttpClient();
@@ -110,6 +121,26 @@ public class HttpUtil {
         RequestBody requestBody=new FormBody.Builder()
                                 .add("action","query")
                                 .add("account",account).build();
+        Request request=new Request.Builder().url(address).post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+    //上传用户位置信息的请求
+    public static void LocationUploadOkHttp(final String address, final Location location,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                                .add("action","upload")
+                                .add("account",location.getAccount())
+                                .add("longitude",location.getLongitude())
+                                .add("latitude",location.getLatitude())
+                                .add("address",location.getAddress()).build();
+        Request request=new Request.Builder().url(address).post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+    //获取用户位置信息的请求
+    public static void LocationRequestOkHttp(final String address, Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                                .add("action","query").build();
         Request request=new Request.Builder().url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }

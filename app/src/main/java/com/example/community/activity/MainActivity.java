@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.community.domain.Config;
+import com.facebook.stetho.Stetho;
 
 public class MainActivity extends Activity{
 
@@ -16,6 +17,7 @@ public class MainActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Stetho.initializeWithDefaults(this);
 
         //判断是否以及成功登陆过
         SharedPreferences prefs= getSharedPreferences("Account_data",MODE_PRIVATE);

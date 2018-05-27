@@ -15,8 +15,16 @@ import android.widget.Toast;
 
 import com.example.community.R;
 import com.example.community.domain.Config;
+import com.example.community.domain.Location;
+import com.example.community.domain.PersonalData;
 import com.example.community.domain.User;
 import com.example.community.service.UserService;
+import com.example.community.utils.Utility;
+
+import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
+
+import java.util.List;
 
 
 /**
@@ -78,6 +86,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //用户验证成功，则切换到主界面，同时将账号以及密码保存起来
             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
             Save(loginUser);
+            //创建litepal数据库
+            Connector.getDatabase();
+            queryDataWithInsert();
+            saveLocationData();
             Intent intent=new Intent(LoginActivity.this, MainFormActivity.class);
             startActivity(intent);
             finish();
@@ -94,5 +106,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.putString("account",user.getAccount());
         editor.putString("password",user.getPassword());
         editor.apply();
+    }
+    //将服务器中已注册用户发出请求信息并保存用户资料
+    private void queryDataWithInsert(){
+        List<PersonalData> dataList= Utility.savePersonalData();
+        for(PersonalData pd:dataList){
+            pd.save();
+        }
+    }
+    //保存用户位置信息至数据库
+    private void saveLocationData(){
+        List<Location> locationList=Utility.otherLocationsExcute();
+        for(Location location:locationList){
+            Log.d("用户位置信息", "saveLocationData: "+location.getAddress());
+            location.save();
+        }
     }
 }

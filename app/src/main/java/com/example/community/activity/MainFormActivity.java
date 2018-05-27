@@ -35,9 +35,13 @@ import com.example.community.frame.MessageFragment;
 import com.example.community.utils.ImageUtils;
 import com.example.community.utils.Utility;
 
+import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFormActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 
@@ -244,5 +248,7 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
         editor.apply();
         editor1.clear();
         editor1.apply();
+        //删除数据库
+        LitePal.deleteDatabase("community");
     }
 }

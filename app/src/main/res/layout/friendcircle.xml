@@ -22,7 +22,9 @@
         android:id="@+id/circleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:textSize="20sp"/>
 
     <GridView
@@ -36,4 +38,9 @@
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dp" />
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" />
 </LinearLayout>
