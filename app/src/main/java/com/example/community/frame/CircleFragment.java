@@ -64,6 +64,7 @@ public class CircleFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(),"朋友圈",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getContext(), FriendCircleActivity.class);
+                intent.putExtra("account","");
                 startActivity(intent);
             }
         });

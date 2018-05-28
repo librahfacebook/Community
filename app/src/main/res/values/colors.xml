@@ -8,6 +8,7 @@
     <color name="bg_color_pink">#FF90A2</color>
     <color name="bg_color_blue">#43D5FF</color>
     <color name="bg_color_blue_light">#84B5CA</color>
+    <color name="button_green">#4EF900</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

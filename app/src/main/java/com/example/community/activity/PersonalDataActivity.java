@@ -19,9 +19,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.community.R;
@@ -35,20 +39,24 @@ import com.example.community.view.SelectPhotoPopWindow;
 import org.litepal.crud.DataSupport;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonalDataActivity extends AppCompatActivity {
 
     private ImageView personalImage_edit;
     private EditText personalName_edit;
-    private EditText personalSex_edit;
     private EditText personalYear_edit;
     private EditText personalPhone_edit;
     private EditText personalEmail_edit;
     private EditText personalIntroduce_edit;
     private Button imageTake;
     private Button personalSave;
+    private Spinner sexSpinner;
+    private List<String> sexList;
+    ArrayAdapter<String> sexAdapter;
     private String imageStr="";
+    private String sexEdit="";
 
     protected static final int CHOOSE_PICTURE=0;
     protected static final int TAKE_PICTURE=1;
@@ -68,7 +76,28 @@ public class PersonalDataActivity extends AppCompatActivity {
         initWindow();
         personalImage_edit=findViewById(R.id.personalImage_edit);
         personalName_edit=findViewById(R.id.personalName_edit);
-        personalSex_edit=findViewById(R.id.personalSex_edit);
+        //性别下拉框的适配器
+        sexSpinner=findViewById(R.id.sexSpinner);
+        sexList=new ArrayList<String>();
+        sexList.add("男");
+        sexList.add("女");
+        sexAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,sexList);
+        sexAdapter.setDropDownViewResource(android.R.layout.simple_list_item_checked);
+        sexSpinner.setAdapter(sexAdapter);
+        sexSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<String> sexAdapter=(ArrayAdapter<String>) parent.getAdapter();
+                String sex=sexAdapter.getItem(position);
+                Log.d("性别", "onItemSelected: "+sex);
+                sexEdit=sex;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         personalYear_edit=findViewById(R.id.personalYear_edit);
         personalPhone_edit=findViewById(R.id.personalPhone_edit);
         personalEmail_edit=findViewById(R.id.personalEmail_edit);
@@ -140,8 +169,7 @@ public class PersonalDataActivity extends AppCompatActivity {
         String name=personalName_edit.getText().toString();
         personalData.setName(name);
         //用户性别
-        String sex=personalSex_edit.getText().toString();
-        personalData.setSex(sex);
+        personalData.setSex(sexEdit);
         //用户年龄
         String year=personalYear_edit.getText().toString();
         personalData.setYear(year);
@@ -265,8 +293,12 @@ public class PersonalDataActivity extends AppCompatActivity {
             if(!name.equals("null"))
                 personalName_edit.setText(name);
             String sex=prefs.getString("sex",null);
-            if(!sex.equals("null"))
-                personalSex_edit.setText(sex);
+            if(!sex.equals("null")){
+                if(sex.equals("男"))
+                    sexSpinner.setSelection(0,true);
+                else
+                    sexSpinner.setSelection(1,true);
+            }
             String year=prefs.getString("year",null);
             if(!year.equals("null"))
                 personalYear_edit.setText(year);

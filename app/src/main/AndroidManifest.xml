@@ -47,12 +47,13 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.WriteCircleActivity" />
 
-        <!--<service-->
-            <!--android:name="com.baidu.location.f"-->
-            <!--android:enabled="true"-->
-            <!--android:process=":remote" />-->
+        <!-- <service -->
+        <!-- android:name="com.baidu.location.f" -->
+        <!-- android:enabled="true" -->
+        <!-- android:process=":remote" /> -->
 
-        <activity android:name=".activity.NearPeopleActivity"></activity>
+        <activity android:name=".activity.NearPeopleActivity" />
+        <activity android:name=".activity.UserDataActivity"></activity>
     </application>
 
 </manifest>

@@ -44,6 +44,7 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
     private TextView circleText;
     private GridView circleGirdView;
     private ImageView personalImage;
+    private ImageView circleBackGround;
     private TextView personalName;
     private List<String> imageFilePath;
     private List<HashMap<String,Object>> imageItem;
@@ -54,35 +55,50 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
     private Config config;
     private SharedPreferences prefs;
     private RecyclerView recyclerView;
+    int[] imageId={R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p3,R.drawable.p4,R.drawable.p5,
+            R.drawable.p6,R.drawable.p7,R.drawable.p8,R.drawable.p9,R.drawable.p10,R.drawable.p11,R.drawable.p12,
+            R.drawable.p13,R.drawable.p14,R.drawable.p15,R.drawable.p16};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_circle);
-        initWindow();
 
         circleText=findViewById(R.id.circleText);
         circleGirdView=findViewById(R.id.circleGridView);
         personalImage=findViewById(R.id.personalCircleImage);
         personalName=findViewById(R.id.personalCircleName);
-        //找到所有已注册用户的账户并显示其朋友圈
-        SharedPreferences prefs=getSharedPreferences("Account_data",MODE_PRIVATE);
-        String account=prefs.getString("account",null);
-        if(account!=null)
-            circleList=(List<FriendCircle>) Utility.circleExcute(account);
-        List<PersonalData> dataList= DataSupport.select("account").where("account!=?",account).find(PersonalData.class);
-        for(PersonalData data:dataList){
-            circleList.addAll((List<FriendCircle>)Utility.circleExcute(data.getAccount()));
-        }
-//        circleList=(List<FriendCircle>) Utility.circleExcute("librah");
-//        circleList.addAll((List<FriendCircle>) Utility.circleExcute("cx"));
-        recyclerView=findViewById(R.id.circleRecycler);
-        recyclerView.setNestedScrollingEnabled(false);
-        if(circleList!=null)
-            show();
+        circleBackGround=findViewById(R.id.circleBackGround);
+
         icon_return=findViewById(R.id.icon_return);
         icon_return.setOnClickListener(this);
         icon_publish=findViewById(R.id.icon_publish);
         icon_publish.setOnClickListener(this);
+        initWindow();
+
+        Intent intent=getIntent();
+        //判断查看朋友圈的动作行为（查看特定用户的朋友圈还是附近用户所有的朋友圈）
+        String account=intent.getStringExtra("account");
+        if(!account.equals("")){
+            //查看特定用户的朋友圈
+            icon_return.setVisibility(View.INVISIBLE);
+            icon_publish.setVisibility(View.INVISIBLE);
+            circleList=(List<FriendCircle>) Utility.circleExcute(account);
+        }else{
+            //查看附近所有用户的朋友圈
+            //找到所有已注册用户的账户并显示其朋友圈
+            SharedPreferences prefs=getSharedPreferences("Account_data",MODE_PRIVATE);
+            String myAccount=prefs.getString("account",null);
+            if(myAccount!=null)
+                circleList=(List<FriendCircle>) Utility.circleExcute(myAccount);
+            List<PersonalData> dataList= DataSupport.select("account").where("account!=?",myAccount).find(PersonalData.class);
+            for(PersonalData data:dataList){
+                circleList.addAll((List<FriendCircle>)Utility.circleExcute(data.getAccount()));
+            }
+        }
+        recyclerView=findViewById(R.id.circleRecycler);
+        recyclerView.setNestedScrollingEnabled(false);
+        if(circleList!=null)
+            show();
     }
     //初始化，将状态栏和标题栏设为透明
     private void initWindow()
@@ -93,6 +109,8 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         //设置状态栏颜色
         window.setStatusBarColor(Color.parseColor("#2E3238"));
+        //显示背景图片
+        showBackground();
     }
 
     @Override
@@ -102,9 +120,6 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
         //friendCircle=(FriendCircle) intent.getSerializableExtra("circle");
         circleList=(List<FriendCircle>) Utility.circleExcute("librah");
 
-        //展示动态
-//        if(friendCircle!=null)
-//            show();
     }
 
     @Override
@@ -129,5 +144,11 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
         recyclerView.setLayoutManager(layoutManager);
         CircleAdapter adapter=new CircleAdapter(circleList);
         recyclerView.setAdapter(adapter);
+    }
+    //随机展示朋友圈上方图片
+    private void showBackground(){
+        int n=new Long(Math.round(Math.random()*16)).intValue();
+        Log.d("字符", "showBackground: "+n);
+        circleBackGround.setImageResource(imageId[n]);
     }
 }

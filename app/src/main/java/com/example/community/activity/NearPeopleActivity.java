@@ -1,6 +1,7 @@
 package com.example.community.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -49,6 +50,8 @@ import com.example.community.utils.radar.ZoomOutPageTransformer;
 import org.litepal.crud.DataSupport;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,6 +125,9 @@ public class NearPeopleActivity extends AppCompatActivity implements ViewPager.O
         for (int i = 0; i < dataList.size(); i++) {
             PersonInfo info = new PersonInfo();
             PersonalData personalData=dataList.get(i);
+            //设置账户
+            String otherAccount=personalData.getAccount();
+            info.setAccount(otherAccount);
             Bitmap image= ImageUtils.convertToBitmap(personalData.getImage());
             info.setImage(ImageUtils.toRoundBitmap(image));
             //设置年龄
@@ -241,6 +247,9 @@ public class NearPeopleActivity extends AppCompatActivity implements ViewPager.O
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(NearPeopleActivity.this, "这是 " + info.getName() + " >.<", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(NearPeopleActivity.this,UserDataActivity.class);
+                    intent.putExtra("account",info.getAccount());
+                    startActivity(intent);
                 }
             });
             container.addView(view);
@@ -367,8 +376,10 @@ public class NearPeopleActivity extends AppCompatActivity implements ViewPager.O
         //计算两点之间的距离
         double distance=Math.acos(Math.sin(myLat)*Math.sin(otherLat)+
                 Math.cos(myLat)*Math.cos(otherLat)*Math.cos(otherLon-myLon))*R;
+        //保留两位小数
+        BigDecimal bg=new BigDecimal(distance).setScale(2, RoundingMode.UP);
         //数字格式化对象
-       /* NumberFormat format=NumberFormat.getNumberInstance();
+        /*NumberFormat format=NumberFormat.getNumberInstance();
         if(distance<1){
             //小于1千米，以米做单位
             format.setMaximumFractionDigits(1);
@@ -378,6 +389,6 @@ public class NearPeopleActivity extends AppCompatActivity implements ViewPager.O
             format.setMaximumFractionDigits(2);
             return format.format(distance)+"km";
         }*/
-        return distance;
+        return bg.doubleValue();
     }
 }
