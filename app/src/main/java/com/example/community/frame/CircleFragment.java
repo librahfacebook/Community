@@ -17,19 +17,21 @@ import com.example.community.R;
 import com.example.community.activity.FriendCircleActivity;
 import com.example.community.activity.MainFormActivity;
 import com.example.community.activity.NearPeopleActivity;
+import com.example.community.view.CircleMenuLayout;
 
 
-public class CircleFragment extends Fragment implements View.OnClickListener{
+public class CircleFragment extends Fragment{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-
+    private CircleMenuLayout circleMenuLayout;
+    private String[] mItemTexts=new String[]{"朋友圈","附近用户","小游戏",
+    "直播平台","今日天气","摇一摇"};
+    private int[] mItemImgs=new int[]{R.drawable.ico_circle,R.drawable.ico_near,R.drawable.snowman,
+            R.drawable.snowman,R.drawable.snowman,R.drawable.snowman};
     private OnFragmentInteractionListener mListener;
-    //页面布局的事件
-    private LinearLayout friendCircle;
-    private LinearLayout nearPeople;
     public CircleFragment() {
         // Required empty public constructor
     }
@@ -57,10 +59,34 @@ public class CircleFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_circle, container, false);
-        friendCircle=view.findViewById(R.id.friendCircle);
+        circleMenuLayout=view.findViewById(R.id.id_menulayout);
+        circleMenuLayout.setMenuItemIconsAndTexts(mItemImgs,mItemTexts);
+        circleMenuLayout.setOnMenuItemClickListener(new CircleMenuLayout.OnMenuItemClickListener() {
+            @Override
+            public void itemClick(View view, int pos) {
+                Toast.makeText(getContext(), mItemTexts[pos],
+                        Toast.LENGTH_SHORT).show();
+                if(mItemTexts[pos].equals("朋友圈")){
+                    Intent intent=new Intent(getContext(), FriendCircleActivity.class);
+                    intent.putExtra("account","");
+                    startActivity(intent);
+                }else if(mItemTexts[pos].equals("附近用户")){
+                    Intent intent_near=new Intent(getContext(), NearPeopleActivity.class);
+                    startActivity(intent_near);
+                }
+            }
+
+            @Override
+            public void itemCenterClick(View view) {
+                Toast.makeText(getContext(),
+                        "you can do something just like ccb  ",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        /* friendCircle=view.findViewById(R.id.friendCircle);
         friendCircle.setOnClickListener(this);
         nearPeople=view.findViewById(R.id.nearPeople);
-        nearPeople.setOnClickListener(this);
+        nearPeople.setOnClickListener(this);*/
         return view;
     }
 
@@ -93,7 +119,7 @@ public class CircleFragment extends Fragment implements View.OnClickListener{
         void onFragmentInteraction(Uri uri);
     }
 
-    @Override
+    /*@Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.friendCircle:
@@ -108,5 +134,5 @@ public class CircleFragment extends Fragment implements View.OnClickListener{
                 startActivity(intent_near);
                 break;
         }
-    }
+    }*/
 }

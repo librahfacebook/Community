@@ -4,123 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".frame.CircleFragment">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/friendCircle"
+        android:layout_height="match_parent"
+        android:background="@drawable/p6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <com.example.community.view.CircleMenuLayout
+            android:id="@+id/id_menulayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/snowman"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="朋友圈"
-                android:textStyle="italic"
-                android:textSize="25sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/nearPeople"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/snowman"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="附近的人"
-                android:textStyle="italic"
-                android:textSize="25sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/snowman"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="搜一搜"
-                android:textStyle="italic"
-                android:textSize="25sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/snowman"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="直播平台"
-                android:textStyle="italic"
-                android:textSize="25sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/snowman"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="今日天气"
-                android:textStyle="italic"
-                android:textSize="25sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="15dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/snowman"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="小游戏"
-                android:textStyle="italic"
-                android:textSize="25sp"/>
-        </LinearLayout>
+            android:padding="100dp"
+            android:background="@drawable/circle_bg3">
+            <RelativeLayout
+                android:id="@id/id_circle_menu_item_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="104.0dip"
+                    android:layout_height="104.0dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/lep" />
+
+                <ImageView
+                    android:layout_width="116.0dip"
+                    android:layout_height="116.0dip"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/turnplate_mask_unlogin_normal" />
+            </RelativeLayout>
+        </com.example.community.view.CircleMenuLayout>
     </LinearLayout>
-    </ScrollView>
 </FrameLayout>
