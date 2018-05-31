@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.community.R;
+import com.example.community.domain.FocusUser;
 import com.example.community.domain.PersonalData;
 import com.example.community.utils.ImageUtils;
 
@@ -41,6 +42,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
     private Button addFriend;
     private Button seeCircle;
 
+    private FocusUser focusUser;
     private String account;
     int[] imageId={R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p3,R.drawable.p4,R.drawable.p5,
             R.drawable.p6,R.drawable.p7,R.drawable.p8,R.drawable.p9,R.drawable.p10,R.drawable.p11,R.drawable.p12,
@@ -63,10 +65,11 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         userPhoneText=findViewById(R.id.userPhoneText);
         userMailText=findViewById(R.id.userMailText);
         userIntroduceText=findViewById(R.id.userIntroduceText);
+
+        addFriend=findViewById(R.id.addFriendButton);
         //显示数据
         showData();
         //按键控制
-        addFriend=findViewById(R.id.addFriendButton);
         addFriend.setOnClickListener(this);
         seeCircle=findViewById(R.id.seeCircleButton);
         seeCircle.setOnClickListener(this);
@@ -83,6 +86,8 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
     //显示个人资料
     private void showData(){
         PersonalData personalData= DataSupport.where("account=?",account).findFirst(PersonalData.class);
+        focusUser=new FocusUser();
+        focusUser.setAccount(account);
         //随机显示背景图片
         int n=new Long(Math.round(Math.random()*16)).intValue();
         Bitmap circleBitmap=BitmapFactory.decodeResource(getResources(),imageId[n]);
@@ -90,9 +95,11 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         blurImageView.setImageBitmap(blurBitmap);
         //显示头像
         Bitmap headImage=ImageUtils.toRoundBitmap(ImageUtils.convertToBitmap(personalData.getImage()));
+        focusUser.setHeadImage(personalData.getImage());
         headImageView.setImageBitmap(headImage);
         //个人姓名
         String name=personalData.getName();
+        focusUser.setName(name);
         headNameText.setText(name);
         userNameText.setText(name);
         //个人性别
@@ -109,14 +116,37 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         userMailText.setText(mail);
         //个人简介
         String introduce=personalData.getIntroduce();
+        focusUser.setIntroduce(introduce);
         userIntroduceText.setText(introduce);
+        //查看用户是否已关注
+        FocusUser user=DataSupport.where("account=?",account).findFirst(FocusUser.class);
+        if(user!=null){
+            addFriend.setText("已关注");
+            addFriend.setBackgroundResource(R.color.button_green);
+        }else{
+            addFriend.setText("加关注");
+            addFriend.setBackgroundResource(R.color.colorGray);
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.addFriendButton:
-                Toast.makeText(UserDataActivity.this,"添加好友",Toast.LENGTH_SHORT).show();
+                String text=addFriend.getText().toString();
+                if(text.equals("加关注")){
+                    Toast.makeText(UserDataActivity.this,"关注",Toast.LENGTH_SHORT).show();
+                    addFriend.setText("已关注");
+                    addFriend.setBackgroundResource(R.color.button_green);
+                    focusUser.save();
+                }else{
+                    Toast.makeText(UserDataActivity.this,"取消关注",Toast.LENGTH_SHORT).show();
+                    addFriend.setText("加关注");
+                    addFriend.setBackgroundResource(R.color.colorGray);
+                    DataSupport.deleteAll(FocusUser.class,"account=?",account);
+                }
+                //FocusList list=new FocusList();
+                //DataSupport.deleteAll(FocusList.class,"acount=?","lihao");
                 break;
             case R.id.seeCircleButton:
                 Toast.makeText(UserDataActivity.this,"查看动态",Toast.LENGTH_SHORT).show();

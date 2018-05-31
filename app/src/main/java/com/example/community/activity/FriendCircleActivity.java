@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.community.R;
 import com.example.community.adapter.CircleAdapter;
+import com.example.community.custom.FlowLikeView;
 import com.example.community.domain.Config;
 import com.example.community.domain.FriendCircle;
 import com.example.community.domain.PersonalData;
@@ -30,12 +32,15 @@ import com.example.community.service.ImageService;
 import com.example.community.service.PersonalDataService;
 import com.example.community.utils.ImageUtils;
 import com.example.community.utils.Utility;
+import com.example.community.view.HeartHonorLayout;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.Timer;
 
 public class FriendCircleActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -68,6 +73,7 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
         personalImage=findViewById(R.id.personalCircleImage);
         personalName=findViewById(R.id.personalCircleName);
         circleBackGround=findViewById(R.id.circleBackGround);
+
 
         icon_return=findViewById(R.id.icon_return);
         icon_return.setOnClickListener(this);
@@ -111,6 +117,7 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
         window.setStatusBarColor(Color.parseColor("#2E3238"));
         //显示背景图片
         showBackground();
+
     }
 
     @Override

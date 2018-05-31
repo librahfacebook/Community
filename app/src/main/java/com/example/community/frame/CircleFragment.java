@@ -19,7 +19,7 @@ import com.example.community.activity.MainFormActivity;
 import com.example.community.activity.NearPeopleActivity;
 
 
-public class CircleFragment extends Fragment {
+public class CircleFragment extends Fragment implements View.OnClickListener{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -58,24 +58,9 @@ public class CircleFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_circle, container, false);
         friendCircle=view.findViewById(R.id.friendCircle);
+        friendCircle.setOnClickListener(this);
         nearPeople=view.findViewById(R.id.nearPeople);
-        friendCircle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"朋友圈",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getContext(), FriendCircleActivity.class);
-                intent.putExtra("account","");
-                startActivity(intent);
-            }
-        });
-        nearPeople.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"附近的人",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(getContext(), NearPeopleActivity.class);
-                startActivity(intent);
-            }
-        });
+        nearPeople.setOnClickListener(this);
         return view;
     }
 
@@ -106,5 +91,22 @@ public class CircleFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.friendCircle:
+                Toast.makeText(getContext(),"朋友圈",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getContext(), FriendCircleActivity.class);
+                intent.putExtra("account","");
+                startActivity(intent);
+                break;
+            case R.id.nearPeople:
+                Toast.makeText(getContext(),"附近的人",Toast.LENGTH_SHORT).show();
+                Intent intent_near=new Intent(getContext(), NearPeopleActivity.class);
+                startActivity(intent_near);
+                break;
+        }
     }
 }

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,11 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.community.R;
+import com.example.community.adapter.FocusAdapter;
+import com.example.community.domain.FocusUser;
+import com.example.community.domain.PersonalData;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,11 +66,11 @@ public class ContactFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_contact,container,false);
-        ListView listView=view.findViewById(R.id.contactList);
-        ArrayAdapter<Map<String,String>> adapter=new ArrayAdapter<Map<String,String>>(
-                getActivity(),android.R.layout.simple_list_item_1,getData()
-        );
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView=view.findViewById(R.id.contactList);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        FocusAdapter adapter=new FocusAdapter(getData());
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -96,13 +103,8 @@ public class ContactFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public List<Map<String,String>> getData(){
-        List<Map<String,String>> list=new ArrayList<Map<String,String>>();
-        for(int i=0;i<20;i++){
-            Map<String,String> map=new HashMap<>();
-            map.put("李浩","18295633519");
-            list.add(map);
-        }
-        return list;
+    public List<FocusUser> getData(){
+        List<FocusUser> focusList=DataSupport.findAll(FocusUser.class);
+        return focusList;
     }
 }

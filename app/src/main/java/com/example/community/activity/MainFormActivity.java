@@ -76,7 +76,7 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);//浮动形式
         bottomNavigationBar.setActiveColor("#00FF00");
         bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.logo_message,"Message"))
-                .addItem(new BottomNavigationItem(R.drawable.logo_contact,"Contact"))
+                .addItem(new BottomNavigationItem(R.drawable.logo_contact,"Focus"))
                 .addItem(new BottomNavigationItem(R.drawable.logo_circle,"Circle"))
                 .setFirstSelectedPosition(0).initialise();
         fragments=getFragments();

@@ -1,46 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RelativeLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/contentView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/personalCircleImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/personalCircleImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:id="@+id/personalCircleName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@id/personalCircleImage"
+                android:textSize="20sp" />
+        </RelativeLayout>
         <TextView
-            android:id="@+id/personalCircleName"
-            android:layout_width="wrap_content"
+            android:id="@+id/circleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="20sp"/>
+
+        <com.example.community.custom.MyGridView
+            android:id="@+id/circleGridView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_toRightOf="@id/personalCircleImage"
-            android:textSize="20sp" />
-    </RelativeLayout>
-    <TextView
-        android:id="@+id/circleText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="20sp"/>
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:horizontalSpacing="5dp"
+            android:numColumns="3"
 
-    <GridView
-        android:id="@+id/circleGridView"
-        android:layout_width="match_parent"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp" />
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="西安市"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/commentClick"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:src="@drawable/comment"
+        android:layout_below="@id/contentView"
+        android:layout_alignParentEnd="true"
+        android:layout_toStartOf="@id/heartClick"
+        android:layout_alignBottom="@id/heartClick"
+        android:layout_marginEnd="80dp"/>
+    <com.example.community.view.HeartHonorLayout
+        android:id="@+id/heartLayout"
+        android:layout_width="100dp"
+        android:layout_height="300dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/heartClick"/>
+    <ImageView
+        android:id="@+id/heartClick"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:columnWidth="90dp"
-        android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp" />
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" />
-</LinearLayout>
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/contentView"
+        android:src="@drawable/heart8"
+        android:text="点赞" />
+</RelativeLayout>

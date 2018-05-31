@@ -86,7 +86,7 @@ public class Utility {
         ImageService.queryFromServer(account);
         //睡眠1S后再判断
         try{
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -94,16 +94,18 @@ public class Utility {
         if(!Config.CircleResponse.equals("")){
             try{
                 JSONObject jsonObject=new JSONObject(Config.CircleResponse);
-                String headPhoto="http://"+Config.IP+":8080/circle/"+jsonObject.getString("headPhoto");
+                /*String headPhoto="http://"+Config.IP+":8080/circle/"+jsonObject.getString("headPhoto");
                 Log.d("头像URl地址", "circleExcute: "+headPhoto);
                 Config.image=null;
                 ImageUtils.getHttpBitmap(headPhoto);
                 try{
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 }catch (Exception e){
                     e.printStackTrace();
-                }
-                Bitmap headImage=ImageUtils.toRoundBitmap(Config.image);
+                }*/
+                //查询用户头像
+                PersonalData pd_head=DataSupport.select("image").where("account=?",account).findFirst(PersonalData.class);
+                Bitmap headImage=ImageUtils.toRoundBitmap(ImageUtils.convertToBitmap(pd_head.getImage()));
                 JSONArray jsonArray=new JSONArray(jsonObject.getString(account));
                 FriendCircle friendCircle=null;
                 for(int i=0;i<jsonArray.length();i++){
