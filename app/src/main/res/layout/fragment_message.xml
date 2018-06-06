@@ -4,10 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".frame.MessageFragment">
-
-    <ListView
-        android:id="@+id/messageList"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="历史上的今天"
+            android:gravity="center_horizontal"
+            android:textSize="35sp"
+            android:textStyle="italic"
+            android:background="@drawable/history"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/newsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </FrameLayout>

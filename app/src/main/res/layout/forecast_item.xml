@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--显示未来天气信息的子项布局-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp">
+    <!--显示天气预报日期-->
+    <TextView
+        android:id="@+id/date_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:textColor="#fff"/>
+    <!--显示天气概况-->
+    <TextView
+        android:id="@+id/info_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="#fff"/>
+    <!--显示当天的最高温度-->
+    <TextView
+        android:id="@+id/max_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:textColor="#fff"/>
+    <!--显示当天的最低温度-->
+    <TextView
+        android:id="@+id/min_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:textColor="#fff"/>
+
+</LinearLayout>

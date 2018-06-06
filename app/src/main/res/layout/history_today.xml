@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+    <ImageView
+        android:id="@+id/toady_iamge"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/boy"/>
+    <TextView
+        android:id="@+id/today_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/toady_iamge"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="20sp"
+        android:maxLines="3"
+        android:text="明代科学家徐光启逝世"/>
+    <TextView
+        android:id="@+id/today_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/toady_iamge"
+        android:layout_below="@id/today_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:textSize="15sp"
+        android:text="1633年12月08日"/>
+
+
+</RelativeLayout>

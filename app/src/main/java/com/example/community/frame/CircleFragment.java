@@ -10,13 +10,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.community.R;
 import com.example.community.activity.FriendCircleActivity;
-import com.example.community.activity.MainFormActivity;
 import com.example.community.activity.NearPeopleActivity;
+import com.example.community.activity.NewsActivity;
+import com.example.community.activity.WeatherActivity;
 import com.example.community.view.CircleMenuLayout;
 
 
@@ -27,10 +27,10 @@ public class CircleFragment extends Fragment{
     private String mParam1;
     private String mParam2;
     private CircleMenuLayout circleMenuLayout;
-    private String[] mItemTexts=new String[]{"朋友圈","附近用户","小游戏",
-    "直播平台","今日天气","摇一摇"};
-    private int[] mItemImgs=new int[]{R.drawable.ico_circle,R.drawable.ico_near,R.drawable.snowman,
-            R.drawable.snowman,R.drawable.snowman,R.drawable.snowman};
+    private String[] mItemTexts=new String[]{"朋友圈","附近用户","新闻头条",
+    "今日天气","今日天气","摇一摇"};
+    private int[] mItemImgs=new int[]{R.drawable.ico_circle,R.drawable.ico_near,R.drawable.ico_news,
+            R.drawable.ico_weather,R.drawable.snowman,R.drawable.snowman};
     private OnFragmentInteractionListener mListener;
     public CircleFragment() {
         // Required empty public constructor
@@ -73,6 +73,12 @@ public class CircleFragment extends Fragment{
                 }else if(mItemTexts[pos].equals("附近用户")){
                     Intent intent_near=new Intent(getContext(), NearPeopleActivity.class);
                     startActivity(intent_near);
+                }else if(mItemTexts[pos].equals("新闻头条")){
+                    Intent intent_news=new Intent(getContext(), NewsActivity.class);
+                    startActivity(intent_news);
+                }else if(mItemTexts[pos].equals("今日天气")){
+                    Intent intent_weather=new Intent(getContext(), WeatherActivity.class);
+                    startActivity(intent_weather);
                 }
             }
 

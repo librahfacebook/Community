@@ -10,9 +10,12 @@ import com.example.community.domain.Config;
 import com.example.community.domain.FriendCircle;
 import com.example.community.domain.Location;
 import com.example.community.domain.PersonalData;
+import com.example.community.domain.TodayNews;
+import com.example.community.gson.Weather;
 import com.example.community.service.ImageService;
 import com.example.community.service.LocationService;
 import com.example.community.service.PersonalDataService;
+import com.example.community.service.TodaynewsService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -158,5 +161,79 @@ public class Utility {
             }
         }
         return locationList;
+    }
+    //返回历史上的今天信息数据
+    public static List<TodayNews> todayNewsExcute(){
+        List<TodayNews> todayNewsList=new ArrayList<>();
+        //延时获取信息
+        TodaynewsService.requestTodaynews();
+        try {
+            Thread.sleep(300);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(!Config.Response.equals("")){
+            try {
+                JSONObject jsonObject=new JSONObject(Config.Response);
+                //Log.d("历史上的今天", "todayNewsExcute: "+Config.Response);
+                JSONArray jsonArray=new JSONArray(jsonObject.getString("result"));
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject object=jsonArray.getJSONObject(i);
+                    TodayNews todayNews=new TodayNews();
+                    //title
+                    String title=object.getString("title");
+                    todayNews.setTitle(title);
+                    //pic
+                    String pic=object.getString("pic");
+                    //Log.d("图片路径", "todayNewsExcute: "+pic);
+                    todayNews.setImage(pic);
+                    //year
+                    int year=object.getInt("year");
+                    todayNews.setYear(year);
+                    //month
+                    int month=object.getInt("month");
+                    todayNews.setMonth(month);
+                    //day
+                    int day=object.getInt("day");
+                    todayNews.setDay(day);
+
+                    todayNewsList.add(todayNews);
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return todayNewsList;
+    }
+    /**
+     * 将返回的json数据解析成Weather实体类
+     */
+    public static Weather handleWeatherResponse(String response){
+        try {
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather");
+            String weatherContent=jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * 将json数据解析成得到城市id
+     */
+    public static String handleCityResponse(String response){
+        String cityId="";
+        try {
+            JSONObject jsonObject=new JSONObject(response);
+            JSONArray jsonArray=jsonObject.getJSONArray("HeWeather6");
+            JSONArray array=jsonArray.getJSONObject(0).getJSONArray("basic");
+            cityId=array.getJSONObject(0).getString("cid");
+            Log.d("城市ID", "handleCityResponse: "+cityId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return cityId;
     }
 }

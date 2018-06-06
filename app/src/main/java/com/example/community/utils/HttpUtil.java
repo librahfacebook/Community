@@ -144,4 +144,16 @@ public class HttpUtil {
         Request request=new Request.Builder().url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
+    //获取历史上的今天数据
+    public static void TodaynewsRequestOkHttp(final String address,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        Request request=new Request.Builder().url(address).get().build();
+        client.newCall(request).enqueue(callback);
+    }
+    public static void sendOkHttpRequest(String address,okhttp3.Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        //传入请求地址
+        Request request=new Request.Builder().url(address).build();
+        client.newCall(request).enqueue(callback);
+    }
 }

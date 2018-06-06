@@ -53,7 +53,15 @@
         <!-- android:process=":remote" /> -->
 
         <activity android:name=".activity.NearPeopleActivity" />
-        <activity android:name=".activity.UserDataActivity"></activity>
+        <activity android:name=".activity.UserDataActivity" />
+        <activity android:name=".activity.DetailsActivity" />
+        <activity android:name=".activity.NewsActivity" />
+        <activity android:name=".activity.WeatherActivity" />
+
+        <service
+            android:name=".service.AutoUpdateService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

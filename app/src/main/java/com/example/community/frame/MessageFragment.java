@@ -7,22 +7,42 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.community.R;
+import com.example.community.adapter.FocusAdapter;
+import com.example.community.adapter.TodayNewsAdapter;
+import com.example.community.domain.News;
+import com.example.community.domain.TodayNews;
+import com.example.community.newsUtils.NewsAdapter;
+import com.example.community.newsUtils.NewsTask;
+import com.example.community.service.TodaynewsService;
+import com.example.community.utils.Utility;
 
-public class MessageFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MessageFragment extends Fragment{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String[] data={"Apple","Banana","Orange","Watermelon",
-            "Apple","Banana","Orange","Watermelon","Apple","Banana","Orange","Watermelon",
-            "Apple","Banana","Orange","Watermelon","Apple","Banana","Orange","Watermelon",
-            "Apple","Banana","Orange","Watermelon"};
+
+    private static String URL_NEWS = "http://v.juhe.cn/toutiao/index?type=top&key=6928eda123d4aef596b726b4addadf48";
+
+    private RecyclerView recyclerView;
+    private NewsAdapter adapter;
+    private ArrayList<News> list = new ArrayList<>();
+    private ArrayList<News> list1 = new ArrayList<>();
+    private String citySubing;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -56,11 +76,11 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_message,container,false);
-        ListView listView=view.findViewById(R.id.messageList);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(
-                getActivity(),android.R.layout.simple_list_item_1,data
-        );
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView=view.findViewById(R.id.newsView);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        TodayNewsAdapter adapter=new TodayNewsAdapter(getData());
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -91,5 +111,9 @@ public class MessageFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public List<TodayNews> getData(){
+        List<TodayNews> todayNewsList= Utility.todayNewsExcute();
+        return todayNewsList;
     }
 }

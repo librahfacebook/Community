@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.community.activity.MainFormActivity">
+    <item
+        android:id="@+id/action_top"
+        android:orderInCategory="100"
+        android:title="@string/top"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_yule"
+        android:orderInCategory="100"
+        android:title="@string/yule"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shehui"
+        android:orderInCategory="100"
+        android:title="@string/shehui"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_tiyu"
+        android:orderInCategory="100"
+        android:title="@string/tiyu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_junshi"
+        android:orderInCategory="100"
+        android:title="@string/junshi"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_keji"
+        android:orderInCategory="100"
+        android:title="@string/keji"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_caijing"
+        android:orderInCategory="100"
+        android:title="@string/caijing"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shishang"
+        android:orderInCategory="100"
+        android:title="@string/shishang"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_guoji"
+        android:orderInCategory="100"
+        android:title="@string/guoji"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_guonei"
+        android:orderInCategory="100"
+        android:title="@string/guonei"
+        app:showAsAction="never" />
+
+
+</menu>

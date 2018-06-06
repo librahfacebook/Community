@@ -10,5 +10,6 @@ public class Config {
     public static String CircleResponse=null;//动态数据
     public static Bitmap headPhoto=null;//个人头像
     public static Bitmap image=null;//动态圈图片
-    public final static String IP="192.168.23.1";
+    public static String CityId="";//城市ID
+    public final static String IP="192.168.1.102";
 }
