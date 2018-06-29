@@ -49,6 +49,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
         HeartHonorLayout heartHonorLayout;
         ImageView heartClick;
         ImageView commentClick;
+        TextView commentText;
         public ViewHolder(View view){
             super(view);
             personalName=view.findViewById(R.id.personalCircleName);
@@ -60,6 +61,7 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
             heartClick=view.findViewById(R.id.heartClick);
             heartHonorLayout=view.findViewById(R.id.heartLayout);
             commentClick=view.findViewById(R.id.commentClick);
+            commentText=view.findViewById(R.id.commentText);
         }
     }
     public CircleAdapter(List<FriendCircle> circleList){
@@ -130,11 +132,25 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
                 holder.heartClick.setImageResource(R.drawable.heart3);
             }
         });
+        StringBuilder comment=new StringBuilder();
+        comment.append("李浩：生如夏花之绚烂，\n" +
+                "                                   死如秋叶之静美。\n\n");
+        comment.append("成天：众里寻他千百度。蓦然回首，\n" +
+                "                           那人却在，灯火阑珊处。\n\n");
+        comment.append("libarh: 谁念西风独自凉，萧萧黄叶\n" +
+                "                         闭疏窗，沉思往事立残阳。\n");
+
+        holder.commentText.setText(comment);
         //评论设置
         holder.commentClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(holder.itemView.getContext(),"评论区",Toast.LENGTH_SHORT).show();
+                if(holder.commentText.getVisibility()==View.VISIBLE){
+                    holder.commentText.setVisibility(View.GONE);
+                }else{
+                    holder.commentText.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

@@ -1,10 +1,14 @@
 package com.example.community.activity;
 
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,6 +46,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 
+import es.dmoral.toasty.Toasty;
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
+
 public class FriendCircleActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView icon_return;
@@ -60,6 +67,8 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
     private Config config;
     private SharedPreferences prefs;
     private RecyclerView recyclerView;
+    private WaveSwipeRefreshLayout swipeRefreshLayout;
+    private Handler handler=new Handler();
     int[] imageId={R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p3,R.drawable.p4,R.drawable.p5,
             R.drawable.p6,R.drawable.p7,R.drawable.p8,R.drawable.p9,R.drawable.p10,R.drawable.p11,R.drawable.p12,
             R.drawable.p13,R.drawable.p14,R.drawable.p15,R.drawable.p16};
@@ -83,28 +92,25 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
 
         Intent intent=getIntent();
         //判断查看朋友圈的动作行为（查看特定用户的朋友圈还是附近用户所有的朋友圈）
-        String account=intent.getStringExtra("account");
-        if(!account.equals("")){
-            //查看特定用户的朋友圈
-            icon_return.setVisibility(View.INVISIBLE);
-            icon_publish.setVisibility(View.INVISIBLE);
-            circleList=(List<FriendCircle>) Utility.circleExcute(account);
-        }else{
-            //查看附近所有用户的朋友圈
-            //找到所有已注册用户的账户并显示其朋友圈
-            SharedPreferences prefs=getSharedPreferences("Account_data",MODE_PRIVATE);
-            String myAccount=prefs.getString("account",null);
-            if(myAccount!=null)
-                circleList=(List<FriendCircle>) Utility.circleExcute(myAccount);
-            List<PersonalData> dataList= DataSupport.select("account").where("account!=?",myAccount).find(PersonalData.class);
-            for(PersonalData data:dataList){
-                circleList.addAll((List<FriendCircle>)Utility.circleExcute(data.getAccount()));
-            }
-        }
+        final String account=intent.getStringExtra("account");
+
         recyclerView=findViewById(R.id.circleRecycler);
         recyclerView.setNestedScrollingEnabled(false);
-        if(circleList!=null)
-            show();
+        swipeRefreshLayout=findViewById(R.id.wave_swipe);
+        swipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryData(account);
+            }
+        });
+        final Runnable task=new Runnable() {
+            @Override
+            public void run() {
+                queryData(account);
+            }
+        };
+        Toasty.info(FriendCircleActivity.this,"正在加载动态",5000).show();
+        handler.postDelayed(task,2000);
     }
     //初始化，将状态栏和标题栏设为透明
     private void initWindow()
@@ -157,5 +163,28 @@ public class FriendCircleActivity extends AppCompatActivity implements View.OnCl
         int n=new Long(Math.round(Math.random()*16)).intValue();
         Log.d("字符", "showBackground: "+n);
         circleBackGround.setImageResource(imageId[n]);
+    }
+    //向服务器查询请求数据
+    private void queryData(String account){
+        if(!account.equals("")){
+            //查看特定用户的朋友圈
+            icon_return.setVisibility(View.INVISIBLE);
+            icon_publish.setVisibility(View.INVISIBLE);
+            circleList=(List<FriendCircle>) Utility.circleExcute(account);
+        }else{
+            //查看附近所有用户的朋友圈
+            //找到所有已注册用户的账户并显示其朋友圈
+            SharedPreferences prefs=getSharedPreferences("Account_data",MODE_PRIVATE);
+            String myAccount=prefs.getString("account",null);
+            if(myAccount!=null)
+                circleList=(List<FriendCircle>) Utility.circleExcute(myAccount);
+            List<PersonalData> dataList= DataSupport.select("account").where("account!=?",myAccount).find(PersonalData.class);
+            for(PersonalData data:dataList){
+                circleList.addAll((List<FriendCircle>)Utility.circleExcute(data.getAccount()));
+            }
+        }
+        if(circleList!=null)
+            show();
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

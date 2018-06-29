@@ -35,6 +35,10 @@
             android:layout_margin="10dp"
             android:src="@drawable/publish"/>
     </RelativeLayout>
+    <jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
+        android:id="@+id/wave_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -50,11 +54,12 @@
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 android:src="@drawable/circle_background" />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/circleRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/circleRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    </jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>
 </LinearLayout>

@@ -26,6 +26,8 @@ import org.litepal.tablemanager.Connector;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 
 /**
  * 用户登录个人账户及密码
@@ -84,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.d("登录情况", "onClick: "+config.Success);
        if(config.Success){
             //用户验证成功，则切换到主界面，同时将账号以及密码保存起来
-            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+           Toasty.success(getApplicationContext(),"登录成功").show();
             Save(loginUser);
             //创建litepal数据库
             Connector.getDatabase();
@@ -95,8 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             finish();
         }else{
             //用户验证失败，重新登录
-            Toast.makeText(LoginActivity.this,"登录失败，请检查用户名或密码",
-                    Toast.LENGTH_SHORT).show();
+            Toasty.error(getApplicationContext(),"登录失败").show();
         }
     }
     //保存用户登录数据

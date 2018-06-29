@@ -4,20 +4,31 @@ package com.example.community.frame;
  */
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.community.R;
 import com.example.community.activity.FriendCircleActivity;
 import com.example.community.activity.NearPeopleActivity;
 import com.example.community.activity.NewsActivity;
+import com.example.community.activity.UserDataActivity;
 import com.example.community.activity.WeatherActivity;
+import com.example.community.domain.Config;
+import com.example.community.domain.FocusUser;
+import com.example.community.domain.PersonalData;
+import com.example.community.utils.ImageUtils;
 import com.example.community.view.CircleMenuLayout;
+
+import org.litepal.crud.DataSupport;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class CircleFragment extends Fragment{
@@ -27,8 +38,9 @@ public class CircleFragment extends Fragment{
     private String mParam1;
     private String mParam2;
     private CircleMenuLayout circleMenuLayout;
+    private ImageView centerHeadImage;
     private String[] mItemTexts=new String[]{"朋友圈","附近用户","新闻头条",
-    "今日天气","今日天气","摇一摇"};
+    "今日天气","五子棋","摇一摇"};
     private int[] mItemImgs=new int[]{R.drawable.ico_circle,R.drawable.ico_near,R.drawable.ico_news,
             R.drawable.ico_weather,R.drawable.snowman,R.drawable.snowman};
     private OnFragmentInteractionListener mListener;
@@ -59,6 +71,9 @@ public class CircleFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_circle, container, false);
+        centerHeadImage=view.findViewById(R.id.centerHeadImage);
+        PersonalData personalData= DataSupport.select("image").where("account=?", Config.Account).findFirst(PersonalData.class);
+        centerHeadImage.setImageBitmap(ImageUtils.toRoundBitmap(ImageUtils.convertToBitmap(personalData.getImage())));
         circleMenuLayout=view.findViewById(R.id.id_menulayout);
         circleMenuLayout.setMenuItemIconsAndTexts(mItemImgs,mItemTexts);
         circleMenuLayout.setOnMenuItemClickListener(new CircleMenuLayout.OnMenuItemClickListener() {
@@ -84,9 +99,10 @@ public class CircleFragment extends Fragment{
 
             @Override
             public void itemCenterClick(View view) {
-                Toast.makeText(getContext(),
-                        "you can do something just like ccb  ",
-                        Toast.LENGTH_SHORT).show();
+                //获取使用者的账户信息
+                Intent intent=new Intent(getContext(),UserDataActivity.class);
+                intent.putExtra("account",Config.Account);
+                startActivity(intent);
             }
         });
         /* friendCircle=view.findViewById(R.id.friendCircle);

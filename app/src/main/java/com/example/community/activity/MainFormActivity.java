@@ -47,6 +47,7 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
 
     public static Activity MainForm=null;
     private ImageView personalImage;
+    private ImageView dataBackground;
     private Bitmap bitmap;
     private PersonalData pd;
     private TextView personalName;
@@ -63,6 +64,9 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
     private ArrayList<Fragment> fragments;
     private PersonalData personalData;
     SharedPreferences prefs;
+    int[] imageId={R.drawable.p1,R.drawable.p2,R.drawable.p3,R.drawable.p3,R.drawable.p4,R.drawable.p5,
+            R.drawable.p6,R.drawable.p7,R.drawable.p8,R.drawable.p9,R.drawable.p10,R.drawable.p11,R.drawable.p12,
+            R.drawable.p13,R.drawable.p14,R.drawable.p15,R.drawable.p16};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +90,7 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
         //左侧个人资料设置
         personalEdit=findViewById(R.id.personalEdit);
         personalImage=findViewById(R.id.personalImage);
+        dataBackground=findViewById(R.id.dataBackground);
         personalName=findViewById(R.id.personalName);
         personalSex=findViewById(R.id.personalSex);
         personalYear=findViewById(R.id.personalYear);
@@ -202,6 +207,8 @@ public class MainFormActivity extends AppCompatActivity implements BottomNavigat
                 personalImage.setImageBitmap(ImageUtils.toRoundBitmap(bitmap));
             }
         }
+        Bitmap backImg=ImageUtils.toBlur(BitmapFactory.decodeResource(getResources(),imageId[9]));
+        dataBackground.setImageBitmap(backImg);
         String name=prefs.getString("name",null);
         if(!name.equals("null")) {
             Config.Name=name;

@@ -77,4 +77,14 @@
         android:layout_below="@id/contentView"
         android:src="@drawable/heart8"
         android:text="点赞" />
+    <TextView
+        android:id="@+id/commentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heartClick"
+        android:layout_margin="10dp"
+        android:background="#F2F2F5"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:text="李浩：生如夏花之绚烂，死如秋叶之静美。"/>
 </RelativeLayout>

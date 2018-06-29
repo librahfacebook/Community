@@ -18,10 +18,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.community.R;
+import com.example.community.domain.Config;
 import com.example.community.domain.FocusUser;
 import com.example.community.domain.PersonalData;
 import com.example.community.utils.ImageUtils;
@@ -90,7 +92,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         focusUser.setAccount(account);
         //随机显示背景图片
         int n=new Long(Math.round(Math.random()*16)).intValue();
-        Bitmap circleBitmap=BitmapFactory.decodeResource(getResources(),imageId[n]);
+        Bitmap circleBitmap=BitmapFactory.decodeResource(getResources(),imageId[9]);
         Bitmap blurBitmap=ImageUtils.toBlur(circleBitmap);
         blurImageView.setImageBitmap(blurBitmap);
         //显示头像
@@ -123,6 +125,8 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         if(user!=null){
             addFriend.setText("已关注");
             addFriend.setBackgroundResource(R.color.button_green);
+        }else if(account.equals(Config.Account)){
+            addFriend.setVisibility(View.GONE);
         }else{
             addFriend.setText("加关注");
             addFriend.setBackgroundResource(R.color.colorGray);

@@ -69,19 +69,20 @@ public class NearPeopleActivity extends AppCompatActivity implements ViewPager.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         locationClient=new LocationClient(getApplicationContext());
         locationClient.registerLocationListener(new LocationListener());
         setContentView(R.layout.activity_near_people);
-        //获取请求
-        getRequestPermisssions();
 
         initView();
+        //获取请求
+        getRequestPermisssions();
         initData();
 
         /**
          * 将Viewpager所在容器的事件分发交给ViewPager
          */
-        ryContainer.setOnTouchListener(new View.OnTouchListener() {
+       ryContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return viewPager.dispatchTouchEvent(event);

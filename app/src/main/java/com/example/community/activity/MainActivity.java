@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.example.community.domain.Config;
 import com.facebook.stetho.Stetho;
+import com.hyphenate.chat.EMOptions;
 
 public class MainActivity extends Activity{
 
@@ -18,6 +19,7 @@ public class MainActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Stetho.initializeWithDefaults(this);
+        //初始化EasyUi
 
         //判断是否以及成功登陆过
         SharedPreferences prefs= getSharedPreferences("Account_data",MODE_PRIVATE);

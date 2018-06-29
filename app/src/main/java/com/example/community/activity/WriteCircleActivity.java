@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * 1.通过SimpleAdapter适配器实现加载图片，在gridview点击函数中响应不同操作
  * 2.当点击图片（+）时，调用本地相册获取图片路径存于字符串pathImage
@@ -157,12 +159,12 @@ public class WriteCircleActivity extends AppCompatActivity implements View.OnCli
                 }
                 if(Config.Success){
                     //动态信息上传成功
-                    Toast.makeText(WriteCircleActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                    Toasty.success(getApplicationContext(),"发布成功",200).show();
                     Intent intent1=new Intent(WriteCircleActivity.this,FriendCircleActivity.class);
                     startActivity(intent1);
                     finish();
                 }else{
-                    Toast.makeText(WriteCircleActivity.this,"发布失败，请重新发布",Toast.LENGTH_SHORT).show();
+                    Toasty.error(getApplicationContext(),"发布失败",200).show();
                 }
 
                 break;

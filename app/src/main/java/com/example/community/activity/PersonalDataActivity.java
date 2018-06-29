@@ -42,6 +42,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class PersonalDataActivity extends AppCompatActivity {
 
     private ImageView personalImage_edit;
@@ -119,14 +121,14 @@ public class PersonalDataActivity extends AppCompatActivity {
                 }
                 Log.d("Config", "onClick: "+config.Success);
                 if(config.Success){
-                    Toast.makeText(PersonalDataActivity.this,"用户信息修改成功",Toast.LENGTH_SHORT).show();
+                    Toasty.success(getApplicationContext(),"用户信息修改成功").show();
                     save();//保存用户信息
                     MainFormActivity.MainForm.finish();
                     Intent intent=new Intent(PersonalDataActivity.this,MainFormActivity.class);
                     startActivity(intent);
                     finish();
                 }else{
-                    Toast.makeText(PersonalDataActivity.this,"信息保存失败，请重新保存",Toast.LENGTH_SHORT).show();
+                    Toasty.error(getApplicationContext(),"信息保存失败，请重新保存").show();
                 }
             }
         });
